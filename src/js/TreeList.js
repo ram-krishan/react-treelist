@@ -28,28 +28,31 @@ class TreeList extends Component {
   }
 
   handleSort(field, sortDir) {
+    const sortedField = {};
+
     if (typeof sortDir === 'string') {
-      this.state.sortedColumns[field] = sortDir;
+      sortedField[field] = sortDir;
     } else {
       // toggle sort dir if not specified explicitly
       if (field in this.state.sortedColumns) {
         // toggle sorting
         const sortDir = this.state.sortedColumns[field];
         if (sortDir === 'asc') {
-          this.state.sortedColumns[field] = 'desc';
+          sortedField[field] = 'desc';
         } else if (sortDir === 'desc') {
-          // remove sorting if it is already sorted by descending order
-          delete this.state.sortedColumns[field];
+          sortedField[field] = 'asc';
         }
       } else {
         // sort column in ascending order first time
-        this.state.sortedColumns[field] = 'asc';
+        sortedField[field] = 'asc';
       }
     }
     // apply changed sortedColumns to state
     this.setState({
-      sortedColumns: this.state.sortedColumns
+      sortedColumns: sortedField
     });
+
+    this.props.onSort(sortedField);
   }
 
   handleFilter(field, type, value, dataType) {
@@ -107,10 +110,10 @@ class TreeList extends Component {
     // if (Object.keys(this.state.filters).length > 0) {
     //   renderData = getFilteredData(data, this.state.filters, id, parentId);
     // }
-    
+
     // check if sort is applied in any of the columns
     const sortKeys = Object.keys(this.state.sortedColumns);
-    if (sortKeys.length > 0) {
+    if (sortKeys.length > 0 && this.props.onSort === undefined) {
       renderData = getSortedData(renderData, this.state.sortedColumns);
     }
 
@@ -135,6 +138,7 @@ class TreeList extends Component {
           scrollLeft={this.state.scrollLeft}
           minimumColWidth={options.minimumColWidth}>
         </Header>
+
         <Body
           columns={columns}
           data={renderData}
@@ -157,7 +161,8 @@ TreeList.propTypes = {
   columns: PropTypes.array.isRequired,
   options: PropTypes.object,
   id: PropTypes.string,
-  parentId: PropTypes.string
+  parentId: PropTypes.string,
+  onSort: PropTypes.func,
 };
 
 TreeList.defaultProps = {
