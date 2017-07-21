@@ -32,6 +32,7 @@ class Row extends Component {
           indent={this.props.level}
           useIndent={expandColumn.field === col.field}
           data={data[col.field]}
+          fullData={data}
           type={col.type}
           format={col.format}
           formatter={col.formatter}
