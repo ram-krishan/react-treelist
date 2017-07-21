@@ -36,11 +36,11 @@
   display: inline-block;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #aaa;
+  border-top: 5px solid #333333;
 }
 
 .i-sort-desc:after, .i-sort-asc:after {
-  content: "";
+  content: none;
   display: inline-block;
   height: 10px;
   position: relative;
@@ -52,7 +52,7 @@
 
 .i-sort-asc {
   transform: rotate(-180deg);
-  margin-top: 3px;
+  margin-top: 8px;
 }
 
 .i-arrow-down {
@@ -75,4 +75,28 @@
   top: 0;
   bottom: 0;
   right: 0;
+}
+.default-sort-indicator {
+    position: relative;
+}
+.default-sort-indicator::before {
+    border-bottom: 5px solid #aaaaaa;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right:5px;
+    top: 7px;
+}
+
+.default-sort-indicator::after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #aaaaaa;
+    content: "";
+    display: inline-block;
+    left: -5px;
+    position: absolute;
+    top: 8px;
 }

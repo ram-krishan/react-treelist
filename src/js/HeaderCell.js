@@ -39,6 +39,10 @@ class HeaderCell extends Component {
     const { sort } = this.props;
     let sortIndicator = null;
 
+    if (this.props.column.enableSort){
+      sortIndicator = <span className='default-sort-indicator'></span>;
+    }
+
     if (sort === 'asc') {
       sortIndicator = <span className='i-sort i-sort-asc'></span>;
     } else if (sort === 'desc') {
