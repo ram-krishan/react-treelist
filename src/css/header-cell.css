@@ -18,19 +18,18 @@
 }
 
 .tgrid-column-header-text {
-  float: left;
-  width: calc(100% - 10px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .i-sort {
-  float: right;
+  margin-left: 5px;
   margin-top: 10px;
 }
 
 .i-sort-desc, .i-sort-asc {
+  position: absolute;
   width: 0;
   height: 0;
   display: inline-block;
@@ -53,6 +52,10 @@
 .i-sort-asc {
   transform: rotate(-180deg);
   margin-top: 8px;
+}
+
+.i-sort-desc {
+  margin-top: 7px;
 }
 
 .i-arrow-down {
@@ -86,7 +89,7 @@
     content: "";
     display: inline-block;
     position: absolute;
-    right:5px;
+    right: -12px;
     top: 7px;
 }
 
@@ -96,7 +99,7 @@
     border-top: 5px solid #aaaaaa;
     content: "";
     display: inline-block;
-    left: -5px;
+    left: 12px;
     position: absolute;
     top: 8px;
 }
