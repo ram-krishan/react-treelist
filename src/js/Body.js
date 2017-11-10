@@ -139,6 +139,7 @@ class Body extends Component {
       nextState.scrollLeft !== this.state.scrollLeft ||
       nextProps.width !== this.props.width ||
       nextState.expandedRows.length !== this.state.expandedRows.length ||
+      nextProps.data !== this.props.data ||
       nextProps.updateHash.sort !== this.props.updateHash.sort;
   }
 
