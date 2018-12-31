@@ -46,12 +46,13 @@ describe('<RowCell />', () => {
 
   it('uses custom formatter to render cell data', () => {
     const testData = 'Test data';
-    function formatter(data) { return data + ' formatted'; }
+    const data = { testData }
+    function formatter(data) { return data.testData + ' formatted'; }
 
     const wrapper = shallow(<RowCell reactKey={'test-key'}
-      formatter={formatter} data={testData} />);
+      formatter={formatter} data={testData} fullData={data} />);
     expect(wrapper.find('.tgrid-data-cell').length).to.equal(1);
-    expect(wrapper.childAt(1).text()).to.equal(formatter(testData));
+    expect(wrapper.childAt(1).text()).to.equal(formatter(data));
   });
 
   it('formats date values based on provided format', () => {
