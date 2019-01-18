@@ -8,24 +8,28 @@ const COLUMNS = [{
   title: 'ID',
   field: 'id',
   type: 'number',
+  enableSort: true,
   width: 100
 }, {
   title: 'First Name',
   field: 'firstName',
   type: 'string',
+  enableSort: true,
   expand: true,
 }, {
   title: 'Last Name',
   field: 'lastName',
+  enableSort: true,
   type: 'string'
 }, {
   title: 'Employee ID',
   field: 'employeeId',
+  enableSort: true,
   type: 'number',
   class: 'red',
   formatter: function(value) {
     if (value) {
-      return 'EMPID' + value;
+      return 'EMPID - ' + value.employeeId;
     }
   }
 }, {

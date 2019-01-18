@@ -1,5 +1,6 @@
 import '../css/row-cell.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import RowIndent from './RowIndent';
 import dateFormat from 'dateformat';
 
@@ -64,7 +65,7 @@ RowCell.propTypes = {
   indent: PropTypes.number,
   useIndent: PropTypes.bool,
   data: PropTypes.any,
-  fullData: PropTypes.object,
+  fullData: PropTypes.instanceOf(Object),
   type: PropTypes.string,
   format: PropTypes.string,
   formatter: PropTypes.func,

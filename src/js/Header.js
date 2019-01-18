@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../css/header.css';
 
 import HeaderCell from './HeaderCell';
@@ -14,6 +15,8 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.displayName = 'Header';
+
+    this.headerRef = React.createRef();
 
     this.state = {
       showResizeGhost: false,
@@ -40,7 +43,7 @@ class Header extends Component {
   }
 
   onColumnOptionsClick(iconXPos, column) {
-    const headerOffsetLeft = this.refs.header.getBoundingClientRect().left;
+    const headerOffsetLeft = this.headerRef.current.getBoundingClientRect().left;
     const columnOptionsLeft = iconXPos - headerOffsetLeft;
     if (this.state.showColumnOptions) {
       // check if different column
@@ -79,7 +82,7 @@ class Header extends Component {
 
   showResizeGhost(column, indicatorPos, currentWidth) {
     this._currentWidth = currentWidth;
-    const headerOffsetLeft = this.refs.header.getBoundingClientRect().left;
+    const headerOffsetLeft = this.headerRef.current.getBoundingClientRect().left;
     const handlePos = {
       width: indicatorPos.width,
       height: indicatorPos.height,
@@ -102,7 +105,7 @@ class Header extends Component {
   }
 
   onResizeStart(clientX) {
-    const headerOffsetLeft = this.refs.header.getBoundingClientRect().left;
+    const headerOffsetLeft = this.headerRef.current.getBoundingClientRect().left;
     this._resizeStartX = clientX - headerOffsetLeft + this.props.scrollLeft;
     this.setState({
       showResizeHint: true,
@@ -112,7 +115,7 @@ class Header extends Component {
 
   onResize(movedX) {
     let left = this._resizeStartX + movedX;
-    const headerWidth = this.refs.header.clientWidth;
+    const headerWidth = this.headerRef.current.clientWidth;
 
     if (left < 0) {
       left = 0;
@@ -139,7 +142,7 @@ class Header extends Component {
     newWidth = newWidth < minimumWidth ? minimumWidth : newWidth;
 
     // determine change to total width here
-    const headerWidth = this.refs.header.getBoundingClientRect().width;
+    const headerWidth = this.headerRef.current.getBoundingClientRect().width;
     const existingWidth = this.columnWidths[this.state.resizeColumn.field];
     const widthDiff = newWidth - existingWidth;
 
@@ -151,7 +154,7 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    const rect = this.refs.header.getBoundingClientRect();
+    const rect = this.headerRef.current.getBoundingClientRect();
   }
 
   componentWillMount() {
@@ -179,7 +182,7 @@ class Header extends Component {
   }
 
   componentDidUpdate() {
-    this.refs.header.scrollLeft = this.props.scrollLeft;
+    this.headerRef.current.scrollLeft = this.props.scrollLeft;
   }
 
   render() {
@@ -227,7 +230,7 @@ class Header extends Component {
 
     return (
       <div className='tgrid-header' style={{ paddingRight: this.state.scrollbarWidth}}>
-        <div className='tgrid-header-wrapper' ref='header'>
+        <div className='tgrid-header-wrapper' ref={this.headerRef}>
           {resizeGhost}
           {resizeHint}
           {columnOptions}
@@ -246,12 +249,12 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
   minimumColWidth: PropTypes.number,
   onSort: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
-  sortedColumns: PropTypes.object.isRequired,
-  filters: PropTypes.object.isRequired,
+  sortedColumns: PropTypes.instanceOf(Object).isRequired,
+  filters: PropTypes.instanceOf(Object).isRequired,
   onResize: PropTypes.func.isRequired,
   width: PropTypes.number,
   scrollLeft: PropTypes.number.isRequired

@@ -1,6 +1,7 @@
 import '../css/body.css';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Colgroup from './Colgroup';
 import { Row, createRow } from './Row';
 import { getRootParents, getChildren } from './util/TreeUtils';
@@ -180,15 +181,15 @@ class Body extends Component {
 }
 
 Body.propTypes = {
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
-  metadata: PropTypes.object.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Array).isRequired,
+  metadata: PropTypes.instanceOf(Object).isRequired,
   idField: PropTypes.string.isRequired,
   parentIdField: PropTypes.string.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
   onHScroll: PropTypes.func.isRequired,
-  updateHash: PropTypes.object,
+  updateHash: PropTypes.instanceOf(Object),
   expandAll: PropTypes.bool,
   itemHeight: PropTypes.number
 };

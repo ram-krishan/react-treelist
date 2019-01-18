@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Colgroup extends React.Component {
-    
+
   constructor(props) {
       super(props);
   }
@@ -15,7 +16,7 @@ class Colgroup extends React.Component {
   render() {
     const { columns } = this.props;
     const cols = this._makeCols(columns);
-    
+
     return (
       <colgroup>
         {cols}
@@ -25,7 +26,7 @@ class Colgroup extends React.Component {
 }
 
 Colgroup.propTypes = {
-  columns: React.PropTypes.array.isRequired
+  columns: PropTypes.instanceOf(Array).isRequired
 };
 
 export default Colgroup;

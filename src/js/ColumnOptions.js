@@ -1,10 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../css/column-options.css';
 import FilterContainer from'./FilterContainer';
 
 class ColumnOptions extends Component {
   constructor(props) {
     super(props);
+
+    this.containerRef = React.createRef();
+
     this.displayName = 'ColumnOptions';
     this.handleSort = this.handleSort.bind(this);
     this.documentClickHandler = this.documentClickHandler.bind(this);
@@ -17,7 +21,7 @@ class ColumnOptions extends Component {
   }
 
   documentClickHandler(event) {
-    const container = this.refs.container;
+    const container = this.containerRef.current;
     const targetInContainer = container.contains(event.target);
     let isColumnMenuIcon = false;
     const targetClassName = event.target.className;
@@ -50,7 +54,7 @@ class ColumnOptions extends Component {
 
   render() {
     const { left, sort, filter, dataType } = this.props;
-    
+
     let filterType, filterText;
     const filterKeys = filter && Object.keys(filter);
     if (filterKeys && filterKeys.length > 0) {
@@ -59,7 +63,7 @@ class ColumnOptions extends Component {
     }
 
     return (
-      <ul className='column-options' style={{ left: left }} ref='container'>
+      <ul className='column-options' style={{ left: left }} ref={this.containerRef}>
         <li
           className={sort === 'asc' ? 'active' : null}
           onClick={this.handleSort.bind(this, 'asc')}>Sort ascending</li>
@@ -86,7 +90,7 @@ ColumnOptions.propTypes = {
   field: PropTypes.string.isRequired,
   dataType: PropTypes.string.isRequired,
   sort: PropTypes.string,
-  filter: PropTypes.object,
+  filter: PropTypes.instanceOf(Object),
   onSort: PropTypes.func.isRequired,
   onFilter: PropTypes.func.isRequired,
   hide: PropTypes.func.isRequired

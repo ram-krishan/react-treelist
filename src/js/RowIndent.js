@@ -1,5 +1,6 @@
 import '../css/row-indent.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class RowIndent extends React.Component {
   constructor(props) {
@@ -35,8 +36,8 @@ class RowIndent extends React.Component {
 }
 
 RowIndent.propTypes = {
-  indent: React.PropTypes.number.isRequired,
-  reactKey: React.PropTypes.string.isRequired
+  indent: PropTypes.number.isRequired,
+  reactKey: PropTypes.string.isRequired
 };
 
 export default RowIndent;

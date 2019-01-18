@@ -1,4 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import '../css/header-cell.css';
 
 const RESIZE_INDICATOR_WIDTH = 10;
@@ -6,6 +8,10 @@ const RESIZE_INDICATOR_WIDTH = 10;
 class HeaderCell extends Component {
   constructor(props) {
     super(props);
+
+    this.headerRef = React.createRef();
+    this.resizeIndicatorRef = React.createRef();
+
     this.displayName = 'HeaderCell';
     this.handleClick = this.handleClick.bind(this);
     this.onResizeMouseEnter = this.onResizeMouseEnter.bind(this);
@@ -14,13 +20,14 @@ class HeaderCell extends Component {
 
   handleClick() {
     if(this.props.column.enableSort) {
+      console.log('this.props.column.field', this.props.column.field)
       this.props.onSort(this.props.column.field);
     }
   }
 
   onResizeMouseEnter() {
-    const boundingRect = this.refs.resizeIndicator.getBoundingClientRect();
-    const currentWidth = this.refs.header.clientWidth;
+    const boundingRect = this.resizeIndicatorRef.current.getBoundingClientRect();
+    const currentWidth = this.headerRef.current.clientWidth;
     this.props.onResizeEnter(this.props.column, boundingRect, currentWidth);
   }
 
@@ -31,7 +38,7 @@ class HeaderCell extends Component {
   }
 
   componentDidMount() {
-    const rect = this.refs.header.getBoundingClientRect();
+    const rect = this.headerRef.current.getBoundingClientRect();
     this.props.whenWidthAvailable(this.props.column.field, rect.width);
   }
 
@@ -51,7 +58,7 @@ class HeaderCell extends Component {
 
     return (
       <th
-        ref='header'
+        ref={this.headerRef}
         className='tgrid-column-header'
         onClick={this.handleClick}>
         <span className='tgrid-column-header-text-wrapper'>
@@ -61,7 +68,7 @@ class HeaderCell extends Component {
           {sortIndicator}
         </span>
         <div className='resize-indicator'
-          ref='resizeIndicator'
+          ref={this.resizeIndicatorRef}
           style={{width: RESIZE_INDICATOR_WIDTH}}
           onMouseEnter={this.onResizeMouseEnter}>
         </div>
@@ -71,7 +78,7 @@ class HeaderCell extends Component {
 }
 
 HeaderCell.propTypes = {
-  column: PropTypes.object.isRequired,
+  column: PropTypes.instanceOf(Object).isRequired,
   onSort: PropTypes.func.isRequired,
   sort: PropTypes.string,
   onResizeEnter: PropTypes.func.isRequired,

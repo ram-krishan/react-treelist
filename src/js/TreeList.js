@@ -1,5 +1,7 @@
 import '../css/treegrid.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Header from './Header';
 import Body from './Body';
 import { getRowsWithChildren } from './util/TreeUtils';
@@ -52,7 +54,7 @@ class TreeList extends Component {
       sortedColumns: sortedField
     });
 
-    this.props.onSort(sortedField);
+    this.props.onSort && this.props.onSort(sortedField);
   }
 
   handleFilter(field, type, value, dataType) {
@@ -157,9 +159,9 @@ class TreeList extends Component {
 }
 
 TreeList.propTypes = {
-  data: PropTypes.array.isRequired,
-  columns: PropTypes.array.isRequired,
-  options: PropTypes.object,
+  data: PropTypes.instanceOf(Array).isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
+  options: PropTypes.instanceOf(Object),
   id: PropTypes.string,
   parentId: PropTypes.string,
   onSort: PropTypes.func,

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import RowCell from './RowCell';
 
 class Row extends Component {
@@ -56,8 +57,8 @@ class Row extends Component {
 
 Row.propTypes = {
   reactKey: PropTypes.string.isRequired,
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired,
+  columns: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
   level: PropTypes.number.isRequired,
   canExpand: PropTypes.bool.isRequired,
   expanded: PropTypes.bool,
