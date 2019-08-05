@@ -53,7 +53,9 @@ class App extends React.Component {
         columns={COLUMNS}
         options={OPTIONS}
         id={'id'}
+        onExpand={(userId, expanded) => {console.log({ userId, expanded })}}
         parentId={'parentId'}></TreeList>
+
     );
   }
 }

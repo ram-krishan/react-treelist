@@ -95,7 +95,7 @@ class TreeList extends Component {
 
   render() {
     let { id, parentId } = this.props;
-    const { data, options } = this.props;
+    const { data, options, onExpand } = this.props;
     const { columns } = this.state;
 
     // assign defaults
@@ -151,7 +151,9 @@ class TreeList extends Component {
           parentIdField={parentId}
           onHScroll={this.onBodyHScroll}
           updateHash={updateHash}
-          expandAll={options.expandAll}>
+          expandAll={options.expandAll}
+          onExpandCallback={onExpand}
+          >
         </Body>
       </div>
     );
@@ -165,10 +167,12 @@ TreeList.propTypes = {
   id: PropTypes.string,
   parentId: PropTypes.string,
   onSort: PropTypes.func,
+  onExpand: PropTypes.func,
 };
 
 TreeList.defaultProps = {
-  options: {}
+  options: {},
+  onExpand: () => {}
 };
 
 export default TreeList;

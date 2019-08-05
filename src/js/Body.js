@@ -6,8 +6,8 @@ import Colgroup from './Colgroup';
 import { Row, createRow } from './Row';
 import { getRootParents, getChildren } from './util/TreeUtils';
 
-const _isExpanded = function(rowId, expandedRows) {
-  return expandedRows.indexOf(rowId) > -1;
+const _isExpanded = function(rowId, expandedRows, row) {
+  return row && row.expanded;
 };
 
 class Body extends Component {
@@ -47,14 +47,14 @@ class Body extends Component {
 
   makeRowsRecursive(row, level, metadata, columns, idField, parentIdField) {
     const rows = [];
-    const canExpand = row[idField] in metadata;
+    const canExpand = (row[idField] in metadata) || row.canExpand;
     // push the parent row first
     rows.push(createRow(row, level, columns, idField,
-      canExpand, this.state.expandedRows.indexOf(row[idField]) > -1,
+      canExpand, row.expanded,
       this.handleExpandToggle));
     // children in next level for indentation
     const nextLevel = ++level;
-    if (canExpand && _isExpanded(row[idField], this.state.expandedRows)) {
+    if (canExpand && _isExpanded(row[idField], this.state.expandedRows, row)) {
       let children = getChildren(row, this.props.data, idField, parentIdField);
       children.forEach((d) => {
         rows.push(...this.makeRowsRecursive(d, nextLevel, metadata, columns, idField, parentIdField));
@@ -66,6 +66,7 @@ class Body extends Component {
   handleExpandToggle(row) {
     const rowId = row[this.props.idField];
     if (this.state.expandedRows.indexOf(rowId) > -1) {
+      this.props.onExpandCallback(rowId, false);
       // expanded and has to be collapsed
       // remove collapsed row and all it's children
       const children = this.props.metadata.map[rowId];
@@ -79,11 +80,14 @@ class Body extends Component {
       this.setState({
         expandedRows: expandedRows
       });
+
     } else {
       // collapsed and has to be expanded
       this.setState({
         expandedRows: [...this.state.expandedRows, rowId]
       });
+
+      this.props.onExpandCallback(rowId, true);
     }
   }
 
@@ -181,6 +185,7 @@ class Body extends Component {
 }
 
 Body.propTypes = {
+  onExpandCallback: PropTypes.func.isRequired,
   columns: PropTypes.instanceOf(Array).isRequired,
   data: PropTypes.instanceOf(Array).isRequired,
   metadata: PropTypes.instanceOf(Object).isRequired,
